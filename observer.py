@@ -1,13 +1,15 @@
 from mcstatus import MinecraftServer
-import discord
 import os
 import json
 
-
-# SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
+"""
+Secrets file hides sensitive info, also will probably be filled in by a command line version of the setup. 
+For now, just this though
+"""
+SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
 class Server:
     def __init__(self):
-        self.server = MinecraftServer.lookup('192.168.0.222')#secrets.get('ip'))
+        self.server = MinecraftServer.lookup(SECRETS['ip'])
 
     def info(self):
         """
@@ -23,11 +25,3 @@ class Server:
         return data
 
 
-
-
-
-if __name__ == '__main__':
-    # print("bruh")
-    # foo = Server()
-    # print(foo.info())
-    print("Nada")
