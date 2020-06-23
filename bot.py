@@ -3,8 +3,9 @@ import os
 from dotenv import load_dotenv
 import re
 import observer
+import socket
 from observer import SECRETS
-
+import mcstatus
 
 # Dotenv stuff for security
 load_dotenv()
@@ -41,13 +42,20 @@ async def on_message(message):
 
         try:
             data = srv.info()
+            if data['players'] == 1:
+                await message.channel.send(
+                    "Ding Dong! There is {players} player currently online. The server's latency is {ping} milliseconds.".format(
+                        players=str(data.get('players')), ping=str(data.get('ping'))))
+
+            else:
+                await message.channel.send(
+                    "Ding Dong! There are {players} players currently online. The server's latency is {ping} milliseconds.".format(
+                        players=str(data.get('players')), ping=str(data.get('ping'))))
         except ConnectionRefusedError:
             await message.channel.send("This address doesn't want me connecting to it.")
-
-        if data['players'] == 1:
-            await message.channel.send("Ding Dong! There is {players} player currently online. The server's latency is {ping} milliseconds.".format(players=str(data.get('players')), ping=str(data.get('ping'))))
-        else:
-            await message.channel.send("Ding Dong! There are {players} players currently online. The server's latency is {ping} milliseconds.".format(players=str(data.get('players')), ping=str(data.get('ping'))))
+        except socket.timeout:
+            # The server is down
+            await message.channel.send("This server is down. Sorry for the inconvenience!")
 
 
 client.run(TOKEN)
