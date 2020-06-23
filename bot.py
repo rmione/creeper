@@ -30,7 +30,7 @@ async def on_message(message):
     :param message:
     :return:
     """
-    print(message.raw_mentions)
+
     if message.author == client.user:
         return
 
@@ -38,9 +38,16 @@ async def on_message(message):
         await message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
     if 'where server' in message.content:
-        data = srv.info()
-        await message.channel.send("Ding Dong! There is " + str(data.get('players')) +" players currently online. The server's latency is " + str(data.get('ping')) +" milliseconds")
 
+        try:
+            data = srv.info()
+        except ConnectionRefusedError:
+            await message.channel.send("This address doesn't want me connecting to it.")
+
+        if data['players'] == 1:
+            await message.channel.send("Ding Dong! There is {players} player currently online. The server's latency is {ping} milliseconds.".format(players=str(data.get('players')), ping=str(data.get('ping'))))
+        else:
+            await message.channel.send("Ding Dong! There are {players} players currently online. The server's latency is {ping} milliseconds.".format(players=str(data.get('players')), ping=str(data.get('ping'))))
 
 
 client.run(TOKEN)

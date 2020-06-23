@@ -7,6 +7,7 @@ Secrets file hides sensitive info, also will probably be filled in by a command 
 For now, just this though
 """
 SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
+
 class Server:
     def __init__(self):
         self.server = MinecraftServer.lookup(SECRETS['ip'])
