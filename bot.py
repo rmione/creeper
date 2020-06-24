@@ -5,20 +5,25 @@ import re
 import observer
 import socket
 from observer import SECRETS
-import mcstatus
+from discord.ext import commands
+import asyncio
 
-# Dotenv stuff for security
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
-client = discord.Client()
 
+
+client = discord.Client()
+bot = commands.Bot(command_prefix='.')
 srv = observer.Server()
+
 
 
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'{client.user} is up and running!')
+
 
 
 @client.event
@@ -31,14 +36,13 @@ async def on_message(message):
     :param message:
     :return:
     """
-
     if message.author == client.user:
         return
 
     if re.match("<@?!"+SECRETS['id'], message.content):
         await message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
-    if 'where server' in message.content:
+    if 'where server'  in message.content:
 
         try:
             data = srv.info()
@@ -56,6 +60,10 @@ async def on_message(message):
         except socket.timeout:
             # The server is down
             await message.channel.send("This server is down. Sorry for the inconvenience!")
+
+    if 'creeper' in message.content:
+        await message.channel.send("Aw man!")
+    await asyncio.sleep(60)
 
 
 client.run(TOKEN)
