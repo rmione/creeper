@@ -14,20 +14,24 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
 
 
-client = discord.Client()
-bot = commands.Bot(command_prefix='.')
+# client = discord.Client()
+creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
 
 
 
-@client.event
+@creeper.event
 async def on_ready():
-    print(f'{client.user} is up and running!')
+    print(f'{creeper.user} is up and running!')
 
 
+@creeper.command()
+async def bing(ctx):
+    await ctx.send("Bong")
 
-@client.event
-async def on_message(message):
+@creeper.command(aliases=['creeper'])
+@commands.cooldown(1, 60)
+async def speak(ctx, *, argument):
     """
     On message it checks for it being mentioned, as well as if the keyword "where server" is mentioned.
     This is the bot's main functionality as of yet.
@@ -36,34 +40,49 @@ async def on_message(message):
     :param message:
     :return:
     """
-    if message.author == client.user:
+
+    if ctx.message.author == creeper.user:
         return
 
-    if re.match("<@?!"+SECRETS['id'], message.content):
-        await message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
+    if re.match("<@?!"+SECRETS['id'], ctx.message.content):
+        await ctx.message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
-    if 'where server'  in message.content:
+    if argument == 'where server':
 
         try:
             data = srv.info()
             if data['players'] == 1:
-                await message.channel.send(
+                await ctx.message.channel.send(
                     "Ding Dong! There is {players} player currently online. The server's latency is {ping} milliseconds.".format(
                         players=str(data.get('players')), ping=str(data.get('ping'))))
 
             else:
-                await message.channel.send(
+                await ctx.message.channel.send(
                     "Ding Dong! There are {players} players currently online. The server's latency is {ping} milliseconds.".format(
                         players=str(data.get('players')), ping=str(data.get('ping'))))
         except ConnectionRefusedError:
-            await message.channel.send("This address doesn't want me connecting to it.")
+            await ctx.message.channel.send("This address doesn't want me connecting to it.")
         except socket.timeout:
             # The server is down
-            await message.channel.send("This server is down. Sorry for the inconvenience!")
-
-    if 'creeper' in message.content:
-        await message.channel.send("Aw man!")
-    await asyncio.sleep(60)
+            await ctx.message.channel.send("This server is down. Sorry for the inconvenience!")
 
 
-client.run(TOKEN)
+    if argument == 'help':
+        await ctx.message.channel.send(
+
+        """
+        :boom: 
+        
+        
+        creeper alpha 
+        A handy Minecraft-related discord bot
+        Commands
+        .creeper help
+        .creeper where server
+        
+        :boom:
+        """)
+
+
+
+creeper.run(TOKEN)
