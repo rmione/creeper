@@ -7,12 +7,13 @@ import socket
 from observer import SECRETS
 from discord.ext import commands
 import asyncio
-
+import paramiko 
+from comm import WakeOnLAN
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
-
+MACADDRESS = os.getenv('MACADDRESS')
 
 
 creeper = commands.Bot(command_prefix='.')
@@ -44,6 +45,7 @@ async def speak(ctx, *, argument):
     if argument == ' ': 
         await ctx.message.channel.send("Aw man")
 
+    # use regex to match id
     if re.match("<@?!"+SECRETS['id'], ctx.message.content):
         await ctx.message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
@@ -65,6 +67,7 @@ async def speak(ctx, *, argument):
         except socket.timeout:
             # The server is down
             await ctx.message.channel.send("This server is down. Sorry for the inconvenience!")
+    
 
     
     if argument == 'help':
@@ -87,6 +90,19 @@ async def shutdown(ctx):
     # Logs out and resets the internal state of the bot 
     await creeper.close()
     creeper.clear()
-    
+
+@creeper.command(name="wake")
+async def Wake(ctx):
+    waker = WakeOnLAN()
+    packet = WakeOnLAN.magic_packet(waker, MACADDRESS)
+    WakeOnLAN.send(waker, packet, 9)
+    print("Woken up")
+
+
+# @creeper.command(name="sleep")
+# async def Sleep(ctx):
+#     waker = WakeOnLAN()
+#     waker.server_shutdown()
+#     print("Slept")
 
 creeper.run(TOKEN)
