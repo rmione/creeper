@@ -4,12 +4,15 @@ from dotenv import load_dotenv
 import re
 import observer
 import socket
-from observer import SECRETS
+import json
 from discord.ext import commands
 import asyncio
 import paramiko 
 from comm import WakeOnLAN
+import threading
 
+
+SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
@@ -18,7 +21,8 @@ MACADDRESS = os.getenv('MACADDRESS')
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
-
+#threading._start_new_thread(srv.watch()) # Start other routine
+asyncio.run(srv.watch())
 
 
 @creeper.event
