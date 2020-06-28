@@ -29,14 +29,14 @@ class WakeOnLAN():
         return bytes.fromhex("F"*12 + mac_address*16)
     def send(self, packet, port):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.sendto(packet, (SECRETS['ip'], port))
+        sock.sendto(packet, (IP, port))
         print("sent")
     
 def server_shutdown():
     client = paramiko.SSHClient() # instantiate class
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(SECRETS['ip'], username=USER, password=PASS) # Get IP from secrets file
+    client.connect(IP, username=USER, password=PASS) # Get IP from secrets file
 
 
     stdin_, stdout_, stderr_ = client.exec_command("screen -r -X eval 'stuff \"stop\"\\\\015'")
