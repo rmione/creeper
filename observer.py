@@ -5,15 +5,19 @@ import asyncio
 import comm 
 import socket
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
+
 """
 Secrets file hides sensitive info, also will probably be filled in by a command line version of the setup. 
 For now, just this though
 """
-SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
+IP = os.getenv('IP')
 count  = 0 
 class Server:
     def __init__(self):
-        self.server = MinecraftServer.lookup(SECRETS['ip'])
+        self.server = MinecraftServer.lookup(IP)
 
     def info(self):
         """
@@ -30,15 +34,6 @@ class Server:
 
 
     def watch(self, previous=None):
-        # try:
-        #     data = self.info()
-
-        #     # count += 1 # This means that the server response was good. 
-        #     # asyncio.sleep(5*60) # Wait 5min 
-        #     # self.watch() # Recurse 
-        # except socket.timeout: 
-        #     # Server is off or can't connect...
-        #     asyncio.sleep(5*60)
         print(previous)
         try:
             data = self.info() # check the info, get players, etc... 
