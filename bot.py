@@ -96,7 +96,7 @@ async def speak(ctx, *, argument):
         My evening-rest and sleep to meet.
             - J.R.R Tolkien
                 """
-        await ctx.send("https://"+IP+":"+MAP_PORT +"\n"+ quote)
+        await ctx.send("https://"+MAP+"\n"+ quote)
 
     if argument == 'help':
         await ctx.message.channel.send(
