@@ -9,7 +9,10 @@ from discord.ext import commands
 import asyncio
 import paramiko 
 from comm import WakeOnLAN
+from comm import server_shutdown
+
 import threading
+import multiprocessing
 
 
 SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
@@ -21,14 +24,13 @@ MACADDRESS = os.getenv('MACADDRESS')
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
-#threading._start_new_thread(srv.watch()) # Start other routine
-asyncio.run(srv.watch())
+# asyncio.get_event_loop()
+# asyncio.run(srv.watch())
 
 
 @creeper.event
 async def on_ready():
     print(f'{creeper.user} is up and running!')
-
 
 @creeper.command()
 async def bing(ctx):
@@ -37,6 +39,7 @@ async def bing(ctx):
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
 async def speak(ctx, *, argument):
+    print(ctx.message.author)
     """
     Speak handles all of the basic functionality of the bot.
     It has a basic decision structure to let it respond to different messages.
@@ -72,14 +75,14 @@ async def speak(ctx, *, argument):
             # The server is down
             await ctx.message.channel.send("This server is down. Sorry for the inconvenience!")
     
-
+        except Exception as e:
+            print(e)
     
     if argument == 'help':
         await ctx.message.channel.send(
 
         """
         :boom: 
-        
         
         creeper alpha 
         A handy Minecraft-related discord bot
@@ -89,24 +92,18 @@ async def speak(ctx, *, argument):
         
         :boom:
         """)
-@creeper.command(name="shutdown")
-async def shutdown(ctx):
-    # Logs out and resets the internal state of the bot 
-    await creeper.close()
-    creeper.clear()
+# @creeper.command(name="shutdown")
+# async def shutdown(ctx):
+#     if ctx.message.user == 'magmatorch':
+#         await ctx.message.channel.send("Shutting down server.")
+#         server_shutdown()
+    
 
 @creeper.command(name="wake")
 async def Wake(ctx):
+    await ctx.message.channel.send("Waking up server...")
     waker = WakeOnLAN()
     packet = WakeOnLAN.magic_packet(waker, MACADDRESS)
     WakeOnLAN.send(waker, packet, 9)
-    print("Woken up")
-
-
-# @creeper.command(name="sleep")
-# async def Sleep(ctx):
-#     waker = WakeOnLAN()
-#     waker.server_shutdown()
-#     print("Slept")
-
+    
 creeper.run(TOKEN)

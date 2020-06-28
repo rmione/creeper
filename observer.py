@@ -29,7 +29,7 @@ class Server:
         return data
 
 
-    async def watch(self, previous=None):
+    def watch(self, previous=None):
         # try:
         #     data = self.info()
 
@@ -46,21 +46,21 @@ class Server:
                 current = 'Active'
             else: 
                 current = 'Inactive'
-            await asyncio.sleep(5*60) # Sleep 5 mins.. we wait
+            time.sleep(5*60) # Sleep 5 mins.. we wait
 
             if previous is None: 
                 """
                 This is the first time it was called. 
                 In this case, we just want to call it again, to get more data, this time with the current value as the previous. 
                 """
-                await self.watch(previous=current)
+                self.watch(previous=current)
             if previous == 'Inactive' and current == 'Inactive': 
                 # Server has been inactive for 10 mins, so it must be shut down! 
                 comm.server_shutdown()
 
             else: 
                 # All of the other different cases are covered by this. The logic handles itself, really! 
-                await self.watch(previous=current)
+                self.watch(previous=current)
 
             # if previous == 'Inactive' and current == 'Active': 
             #     self.watch(previous=current) 
@@ -73,7 +73,11 @@ class Server:
 
         except socket.timeout:
             print("The server is down! ")
-            await self.watch()
+            self.watch()
         except ConnectionRefusedError: 
-            await asyncio.sleep(60)
-            await self.watch()
+            time.sleep(60)
+            self.watch()
+
+if __name__ == "__main__":
+    srv = Server()
+    srv.watch()
