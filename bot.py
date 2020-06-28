@@ -10,11 +10,12 @@ import asyncio
 import paramiko 
 from comm import WakeOnLAN
 from comm import server_shutdown
+import logging 
 
 import threading
 import multiprocessing
 
-
+logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO')
 SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -24,13 +25,13 @@ MACADDRESS = os.getenv('MACADDRESS')
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
-# asyncio.get_event_loop()
-# asyncio.run(srv.watch())
+
 
 
 @creeper.event
 async def on_ready():
-    print(f'{creeper.user} is up and running!')
+    logging.info(f'{creeper.user} is up and running!')
+    
 
 @creeper.command()
 async def bing(ctx):
@@ -39,7 +40,8 @@ async def bing(ctx):
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
 async def speak(ctx, *, argument):
-    print(ctx.message.author)
+    print()
+    logging.info("{0} used the speak command. ".format(ctx.message.author))
     """
     Speak handles all of the basic functionality of the bot.
     It has a basic decision structure to let it respond to different messages.
@@ -92,16 +94,14 @@ async def speak(ctx, *, argument):
         
         :boom:
         """)
-# @creeper.command(name="shutdown")
-# async def shutdown(ctx):
-#     if ctx.message.user == 'magmatorch':
-#         await ctx.message.channel.send("Shutting down server.")
-#         server_shutdown()
+
     
 
 @creeper.command(name="wake")
 async def Wake(ctx):
     await ctx.message.channel.send("Waking up server...")
+    logging.info("{0} used the wake command. ".format(ctx.message.author))
+    logging.info("Waking up server...")
     waker = WakeOnLAN()
     packet = WakeOnLAN.magic_packet(waker, MACADDRESS)
     WakeOnLAN.send(waker, packet, 9)
