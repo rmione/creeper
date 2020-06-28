@@ -14,8 +14,8 @@ import logging
 
 import threading
 import multiprocessing
-
-logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename=os.getcwd()+'/log/creeper.log')
+PATH = (os.path.dirname(os.path.abspath(__file__)))
+logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename=PATH+'/log/creeper.log')
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 
@@ -26,7 +26,6 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
 MACADDRESS = os.getenv('MACADDRESS')
 MAP_PORT=os.getenv('PORT')
-IP = os.getenv('IP')
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
