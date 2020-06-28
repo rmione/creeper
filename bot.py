@@ -15,7 +15,7 @@ import logging
 import threading
 import multiprocessing
 
-logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename='/log/creeper.log')
+logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename=os.getcwd()+'/log/creeper.log')
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 
@@ -25,7 +25,8 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
 MACADDRESS = os.getenv('MACADDRESS')
-
+MAP_PORT=os.getenv('PORT')
+IP = os.getenv('IP')
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
@@ -40,6 +41,7 @@ async def on_ready():
 @creeper.command()
 async def bing(ctx):
     await ctx.send("Bong")
+
 
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
@@ -83,7 +85,20 @@ async def speak(ctx, *, argument):
     
         except Exception as e:
             print(e)
-    
+    if argument == 'map':
+        quote = """
+            The Road goes ever on and on
+        Out from the door where it began.
+        Now far ahead the Road has gone.
+        Let others follow, if they can!
+        Let them a journey new begin.
+        But I at last with weary feet
+        Will turn towards the lighted inn,
+        My evening-rest and sleep to meet.
+            - J.R.R Tolkien
+                """
+        await ctx.send("https://"+IP+":"+MAP_PORT +"\n"+ quote)
+
     if argument == 'help':
         await ctx.message.channel.send(
 
