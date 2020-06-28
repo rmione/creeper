@@ -15,7 +15,11 @@ import logging
 import threading
 import multiprocessing
 
-logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO')
+logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename='/log/creeper.log')
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+
+
 SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
