@@ -35,8 +35,8 @@ srv = observer.Server()
 
 @creeper.event
 async def on_ready():
-    logging.info(f'{creeper.user} is up and running!')
-    
+    # logging.info(f"{creeper.user} is up and running!")
+    pass
 
 @creeper.command()
 async def bing(ctx):
