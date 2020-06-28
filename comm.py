@@ -7,9 +7,10 @@ import time
 import asyncio
 
 load_dotenv()
-SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
+
 USER = os.getenv('SSH_USER') 
 PASS = os.getenv('SSH_PASS')
+IP = os.getenv('IP')
 MACADDRESS = os.getenv('MACADDRESS')
 
 
@@ -30,6 +31,7 @@ class WakeOnLAN():
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(packet, (SECRETS['ip'], port))
         print("sent")
+    
 def server_shutdown():
     client = paramiko.SSHClient() # instantiate class
     client.load_system_host_keys()
