@@ -25,7 +25,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
 MACADDRESS = os.getenv('MACADDRESS')
-MAP_PORT=os.getenv('PORT')
+MAP = os.getenv('MAP') 
 
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
