@@ -20,7 +20,7 @@ console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 
 
-SECRETS = json.load(open(os.getcwd() + "/secrets.json"))
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
@@ -61,8 +61,8 @@ async def speak(ctx, *, argument):
         await ctx.message.channel.send("Aw man")
 
     # use regex to match id
-    if re.match("<@?!"+SECRETS['id'], ctx.message.content):
-        await ctx.message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
+    # if re.match("<@?!"+SECRETS['id'], ctx.message.content):
+    #     await ctx.message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
     if argument == 'where server':
 
