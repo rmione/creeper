@@ -16,9 +16,9 @@ For now, just this though
 IP = os.getenv('IP')
 count  = 0 
 class Server:
-    def __init__(self):
+    def __init__(self, flag=False):
         self.server = MinecraftServer.lookup(IP)
-
+        self.maintenance = flag # Maintenace flag will be used to make sure that observer stops running when I want it to, otherwise bad stuff will happen. 
     def info(self):
         """
         Sends a request to the desired server, and returns the JSON object returned by mcstatus's status method.
@@ -36,7 +36,7 @@ class Server:
     def watch(self, previous=None):
         print(previous)
         try:
-            data = self.info() # check the info, get players, etc... 
+            data = self.info() # check the info, get players, etc...  
             if data['players'] != 0:
                 current = 'Active'
             else: 
@@ -56,16 +56,7 @@ class Server:
             else: 
                 # All of the other different cases are covered by this. The logic handles itself, really! 
                 self.watch(previous=current)
-
-            # if previous == 'Inactive' and current == 'Active': 
-            #     self.watch(previous=current) 
-            # if previous == 'Active' and current == 'Inactive':
-            #     self.watch(previous=current) 
-            # if
-
-
-
-
+        # todo: this could be better for sure... fix it later.
         except socket.timeout:
             print("The server is down! ")
             self.watch()
