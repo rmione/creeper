@@ -38,6 +38,7 @@ async def on_ready():
 @creeper.command()
 async def bing(ctx):
     await ctx.send("Bong")
+
 @creeper.command(name="maintenance")
 @commands.cooldown(1, 60)
 async def maintenance(ctx, *, argument):
@@ -47,8 +48,7 @@ async def maintenance(ctx, *, argument):
     if argument == "stop":
         srv.maintenance = False
         await ctx.message.channel.send("Maintenance mode ended!")
-    else: 
-        await ctx.message.channel.send("Invalid use of this command.")
+    
 
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)

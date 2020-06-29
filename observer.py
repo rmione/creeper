@@ -43,7 +43,7 @@ class Server:
                     current = 'Active'
                 else: 
                     current = 'Inactive'
-                time.sleep(5*60) # Sleep 5 mins.. we wait
+                time.sleep(10) # Sleep 5 mins.. we wait
 
                 if previous is None: 
                     """
