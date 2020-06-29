@@ -12,8 +12,6 @@ from comm import WakeOnLAN
 from comm import server_shutdown
 import logging 
 
-import threading
-import multiprocessing
 PATH = (os.path.dirname(os.path.abspath(__file__)))
 logging.basicConfig(format='%(asctime)-15s s%(message)s', level='INFO', filename=PATH+'/log/creeper.log')
 console = logging.StreamHandler()
@@ -40,7 +38,17 @@ async def on_ready():
 @creeper.command()
 async def bing(ctx):
     await ctx.send("Bong")
-
+@creeper.command(name="maintenance")
+@commands.cooldown(1, 60)
+async def maintenance(ctx, *, argument):
+    if argument ==  "start":
+        srv.maintenance = True
+        await ctx.message.channel.send("Maintenance mode started!")
+    if argument == "stop":
+        srv.maintenance = False
+        await ctx.message.channel.send("Maintenance mode ended!")
+    else: 
+        await ctx.message.channel.send("Invalid use of this command.")
 
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
