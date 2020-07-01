@@ -4,6 +4,7 @@
 This very simple Discord bot will tell you through your Discord server the status of your Minecraft server, and more! 
 
 ## Commands 
+__These commands are available to every user by default__
 ```bash
 .creeper where server
 ```
@@ -17,6 +18,8 @@ The wake command wakes the server up if it's shut off, so __anybody__ can play, 
 .creeper help
 ```
 The help command somewhat obviously shows the list of commands and what they do. 
+
 ```bash
-.creeper where server
+.creeper map
 ```
+The map command will send the URL for the server's minimap plugin. 
