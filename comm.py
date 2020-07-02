@@ -16,6 +16,10 @@ MACADDRESS = os.getenv('MACADDRESS')
 
 
 class WakeOnLAN():
+    """
+    the WakeOnLAN class deals with functions that wake the server. 
+    specifically formulating the magic packet and sending it! 
+    """
     def __init__(self):
         pass
     def magic_packet(self, mac_address):
@@ -33,6 +37,12 @@ class WakeOnLAN():
         print("sent")
     
 def server_shutdown():
+    """
+    Server shutdown fxn is to be called in observer. 
+    This function is what is used to shut down the server after it reaches the inactivity period.
+
+    
+    """
     client = paramiko.SSHClient() # instantiate class
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -49,9 +59,3 @@ def server_shutdown():
     lines = stdout_.readlines()
     for line in lines:
         print(line)
-
-
-if __name__ == "__main__":
-    bruh = WakeOnLAN()
-    packet = WakeOnLAN.magic_packet(bruh, MACADDRESS)
-    WakeOnLAN.send(bruh, packet, 9)

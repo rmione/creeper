@@ -16,6 +16,13 @@ For now, just this though
 IP = os.getenv('IP')
 count  = 0 
 class Server:
+    """
+    Server class has a couple objects.
+    It creates a server object by looking up the IP in the .env file.
+    Also there is the maintenance flag. This is only changed in the event that Maintenance mode is needed.
+    
+    """
+
     def __init__(self, flag=False):
         self.server = MinecraftServer.lookup(IP)
         self.maintenance = flag # Maintenace flag will be used to make sure that observer stops running when I want it to, otherwise bad stuff will happen. 
@@ -28,12 +35,17 @@ class Server:
         """
         status = self.server.status()
         ping = int(self.server.ping())
-        # players = self.server.query() # Returns playerlist
         data = {'players': status.players.online, 'ping': ping}
         return data
 
 
     def watch(self, previous=None):
+        """
+        The watch() function takes one parameter. Due to the function being called recursively, it is useful for it to know
+        the previous status of the server. This way it can know if it has exceeded the x-minute time period that is allowed before
+        shutting down the server.
+        There is a fairly basic logic that is followed each time it is called to figure this out. 
+        """
         print(previous)
         if not self.maintenance:
             # Maintenance mode is not on here.
@@ -43,7 +55,7 @@ class Server:
                     current = 'Active'
                 else: 
                     current = 'Inactive'
-                time.sleep(10) # Sleep 5 mins.. we wait
+                time.sleep(5*60)
 
                 if previous is None: 
                     """

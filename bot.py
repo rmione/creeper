@@ -32,7 +32,6 @@ PATH = (os.path.dirname(os.path.abspath(__file__)))
 creeper = commands.Bot(command_prefix='.')
 srv = observer.Server()
 
-# Actual code starts here.
 
 @creeper.event
 async def on_ready():
@@ -42,7 +41,6 @@ async def on_ready():
 @creeper.command()
 async def bing(ctx):
     await ctx.send("Bong")
-
 
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
@@ -60,10 +58,6 @@ async def speak(ctx, *, argument):
         return
     if argument == ' ': 
         await ctx.message.channel.send("Aw man")
-
-    # use regex to match id
-    # if re.match("<@?!"+SECRETS['id'], ctx.message.content):
-    #     await ctx.message.channel.send("I am a bot created by @rmione on github, check me out: https://github.com/rmione/creeper")
 
     if argument == 'where server':
 
@@ -98,25 +92,20 @@ async def speak(ctx, *, argument):
         await ctx.send("https://"+MAP+"\n"+ quote)
 
     if argument == 'help':
-        # await ctx.message.channel.send(
 
-        # """
-        # :boom: 
-        
-        # creeper alpha 
-        # A handy Minecraft-related discord bot
-        # Commands
-        # .creeper help
-        # .creeper where server
-        
-        # :boom:
-        # """)
         await ctx.message.author.send(open(PATH+"\\README.md").read())
 
     
 
 @creeper.command(name="wake")
 async def Wake(ctx):
+    """
+    This command sends the WOL packet.
+    Has some output for whether or not it works. 
+    Somewhat finicky right now... the server might not always wake, but that is a case-case basis. 
+
+    """
+
     await ctx.message.channel.send("Attempting to wake up server...")
     logging.info("{0} used the wake command. ".format(ctx.message.author))
     waker = WakeOnLAN()
@@ -154,6 +143,11 @@ def check_poweruser(ctx):
 @commands.check(check_poweruser)
 @commands.cooldown(1, 60)
 async def maintenance(ctx, *, argument):
+    """
+    This function sets the maintenance flag.
+    This allows observer to figure out whether or not it should be pinging the server.
+    When the flag is True, it won't shut the server off after the period is exceeded. 
+    """
     if argument ==  "start":
         srv.maintenance = True
         await ctx.message.channel.send("Maintenance mode started!")
