@@ -23,3 +23,6 @@ The help command somewhat obviously sends to the user through DMs the list of co
 .creeper map
 ```
 The map command will send the URL for the server's minimap plugin. 
+
+### Setup
+For more information on how to set up this bot, refer to the SETUP.md file in the /docs/ directory. 
