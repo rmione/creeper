@@ -17,7 +17,7 @@ The wake command wakes the server up if it's shut off, so __anybody__ can play, 
 ```bash
 .creeper help
 ```
-The help command somewhat obviously shows the list of commands and what they do. 
+The help command somewhat obviously sends to the user through DMs the list of commands and what they do. 
 
 ```bash
 .creeper map

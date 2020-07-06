@@ -32,3 +32,7 @@ POWERUSERS=blah#1234,blah#4567,blah#7890
 | MAP | The map plugin's URL | No
 | IP | The IP address of the server | Yes
 | POWERUSERS | Comma separated sequence of discord names of whom you want to have access to sensitive commands. | Yes
+
+
+## Setting up the Bot on a Host Machine
+The bot will also need to run on a host machine. However you choose to do this is up to your own discretion. Anything that has internet access, and is also capable of running Python files should work fine. 
