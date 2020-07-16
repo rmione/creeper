@@ -113,7 +113,7 @@ async def Wake(ctx):
     WakeOnLAN.send(waker, packet, 9)
     
     # Now give it some time to wake up. There is no solid set time for waking it up. This will obvously be different case to case.
-    asyncio.sleep(3*60) # This works fine for my server!
+    await asyncio.sleep(3*60) # This works fine for my server!
     try:
         srv.info()
         await ctx.message.send("Server is awake! Game on!")
