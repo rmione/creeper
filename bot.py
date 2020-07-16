@@ -93,7 +93,7 @@ async def speak(ctx, *, argument):
 
     if argument == 'help':
 
-        await ctx.message.author.send(open(PATH+"\\README.md").read())
+        await ctx.message.author.send(open(PATH+"//README.md").read())
 
     
 
