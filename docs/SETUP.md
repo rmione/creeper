@@ -4,7 +4,7 @@
 ## Prerequisites 
 - A working Minecraft server instance with internet access, that can be publically polled by mcstatus. 
 - A computer or server with internet access, that will be able to run Python, in order to actually run the bot off of. This can be your own PC, if you like. However, if you want the bot to run all the time, make sure to have a seprate machine, virtual or not, to do this.
-- 
+  
 ## Setting up a Discord Bot 
 Log in with a Discord account on the discord developer website, and create a new Application. https://discord.com/developers/applications 
 There are plenty of good guides on this on the web, so find one of those. Make sure to get your application token as that will be needed later! 
