@@ -84,4 +84,14 @@ class Server:
             
 if __name__ == "__main__":
     srv = Server()
-    srv.watch()
+    try:
+        srv.watch()
+    except socket.timeout:
+        print("The server is down! ")
+        srv.watch()
+    except ConnectionRefusedError: 
+        time.sleep(60)
+        srv.watch()
+    except OSError:
+        print("No route to host, trying again")
+        
