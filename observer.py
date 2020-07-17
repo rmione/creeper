@@ -6,13 +6,13 @@ import comm
 import socket
 import time
 from dotenv import load_dotenv
-
+import logging 
 load_dotenv()
 
-"""
-Secrets file hides sensitive info, also will probably be filled in by a command line version of the setup. 
-For now, just this though
-"""
+logging.basicConfig(format='%(asctime)-15s s %(message)s', level='INFO')
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+
 IP = os.getenv('IP')
 count  = 0 
 class Server:
@@ -36,6 +36,7 @@ class Server:
         status = self.server.status()
         ping = int(self.server.ping())
         data = {'players': status.players.online, 'ping': ping}
+        logging.info(data) # 3xport the status to the logs
         return data
 
 
@@ -47,6 +48,7 @@ class Server:
         There is a fairly basic logic that is followed each time it is called to figure this out. 
         """
         print(previous)
+        logging.info("\n Previous status - " + previous)
         if not self.maintenance:
             # Maintenance mode is not on here.
             try:
@@ -94,4 +96,4 @@ if __name__ == "__main__":
         srv.watch()
     except OSError:
         print("No route to host, trying again")
-        
+        srv.watch()
