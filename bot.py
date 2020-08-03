@@ -12,13 +12,13 @@ from comm import WakeOnLAN
 from comm import server_shutdown
 import logging 
 
-# logging config 
+# Logging setup 
 logging.basicConfig(format='%(asctime)-15s s %(message)s', level='INFO')
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 
 
-# This is all the dotenv loading...
+# Dotenv, load into it and get the needed variables
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 SERVER = os.getenv('DISCORD_GUILD')
