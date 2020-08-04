@@ -18,7 +18,7 @@ MACADDRESS = os.getenv('MACADDRESS')
 class WakeOnLAN():
     """
     the WakeOnLAN class deals with functions that wake the server. 
-    specifically formulating the magic packet and se--html nding it! 
+    specifically formulating the magic packet and sending it! 
     """
     def __init__(self):
         pass
