@@ -1,5 +1,5 @@
 # creeper
-### _A handy Minecraft-related Discord bot!_
+### _A Discord bot for your Minecraft server!_
 
 This very simple Discord bot will tell you through your Discord server the status of your Minecraft server, and more! 
 
