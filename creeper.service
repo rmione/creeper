@@ -1,0 +1,9 @@
+[Unit]
+Description=Creeper Script!
+
+[Service]
+Type=forking
+ExecStart=/bin/bash /usr/bin/creeper.sh
+
+[Install]
+WantedBy=multi-user.target
