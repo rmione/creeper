@@ -45,7 +45,6 @@ async def bing(ctx):
 @creeper.command(aliases=['creeper'])
 @commands.cooldown(1, 60)
 async def speak(ctx, *, argument):
-    print()
     logging.info("{0} used the speak command. ".format(ctx.message.author))
     """
     Speak handles all of the basic functionality of the bot.
@@ -121,7 +120,7 @@ async def Wake(ctx):
         await ctx.message.channel.send("This address doesn't want me connecting to it.")
     except socket.timeout:
         # todo: move this all to a function that checks if it's online. Will be better for the code
-        await ctx.message.channel.send("the server is still down.")
+        await ctx.message.channel.send("The server is still down.")
     
 def check_poweruser(ctx):
     """
